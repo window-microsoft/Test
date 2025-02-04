@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사이트 성능 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #4285F4;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+        }
+        .score {
+            display: flex;
+            justify-content: space-around;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .score div {
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            min-width: 100px;
+        }
+        .good { background-color: #34A853; color: white; }
+        .average { background-color: #FBBC05; color: white; }
+        .bad { background-color: #EA4335; color: white; }
+    </style>
+</head>
+<body>
+    <div class="header">사이트 성능 테스트</div>
+    <div class="container">
+        <div class="input-group">
+            <input type="text" id="urlInput" placeholder="테스트할 URL 입력">
+            <button onclick="testPerformance()">분석</button>
+        </div>
+        <div id="results" class="results" style="display: none;">
+            <div class="score">
+                <div id="loadTime" class="good">로드 시간</div>
+                <div id="domTime" class="average">DOM 로딩</div>
+                <div id="responseTime" class="bad">응답 시간</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function testPerformance() {
+            const performanceData = window.performance.timing;
+            const loadTime = performanceData.loadEventEnd - performanceData.navigationStart;
+            const domContentLoadedTime = performanceData.domContentLoadedEventEnd - performanceData.navigationStart;
+            const responseTime = performanceData.responseEnd - performanceData.requestStart;
+
+            function getClass(time) {
+                return time < 1000 ? 'good' : time < 3000 ? 'average' : 'bad';
+            }
+
+            document.getElementById('loadTime').innerHTML = `로드 시간<br>${loadTime}ms`;
+            document.getElementById('loadTime').className = getClass(loadTime);
+            
+            document.getElementById('domTime').innerHTML = `DOM 로딩<br>${domContentLoadedTime}ms`;
+            document.getElementById('domTime').className = getClass(domContentLoadedTime);
+            
+            document.getElementById('responseTime').innerHTML = `응답 시간<br>${responseTime}ms`;
+            document.getElementById('responseTime').className = getClass(responseTime);
+            
+            document.getElementById('results').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
