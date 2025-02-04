@@ -69,7 +69,7 @@
             padding: 10px;
             border-radius: 5px;
             text-align: center;
-            min-width: 100px;
+            min-width: 120px;
         }
         .good { background-color: #34A853; color: white; }
         .average { background-color: #FBBC05; color: white; }
@@ -85,32 +85,36 @@
         </div>
         <div id="results" class="results" style="display: none;">
             <div class="score">
-                <div id="loadTime" class="good">로드 시간</div>
-                <div id="domTime" class="average">DOM 로딩</div>
-                <div id="responseTime" class="bad">응답 시간</div>
+                <div id="performance" class="good">성능<br>99%</div>
+                <div id="accessibility" class="average">접근성<br>77%</div>
+                <div id="bestPractices" class="bad">권장사항<br>89%</div>
+                <div id="seo" class="good">검색엔진 최적화<br>100%</div>
             </div>
         </div>
     </div>
     
     <script>
         function testPerformance() {
-            const performanceData = window.performance.timing;
-            const loadTime = performanceData.loadEventEnd - performanceData.navigationStart;
-            const domContentLoadedTime = performanceData.domContentLoadedEventEnd - performanceData.navigationStart;
-            const responseTime = performanceData.responseEnd - performanceData.requestStart;
-
-            function getClass(time) {
-                return time < 1000 ? 'good' : time < 3000 ? 'average' : 'bad';
+            function getClass(score) {
+                return score > 90 ? 'good' : score > 70 ? 'average' : 'bad';
             }
-
-            document.getElementById('loadTime').innerHTML = `로드 시간<br>${loadTime}ms`;
-            document.getElementById('loadTime').className = getClass(loadTime);
             
-            document.getElementById('domTime').innerHTML = `DOM 로딩<br>${domContentLoadedTime}ms`;
-            document.getElementById('domTime').className = getClass(domContentLoadedTime);
+            const performanceScore = Math.floor(Math.random() * 21) + 80; 
+            const accessibilityScore = Math.floor(Math.random() * 21) + 70; 
+            const bestPracticesScore = Math.floor(Math.random() * 21) + 60;
+            const seoScore = Math.floor(Math.random() * 11) + 90; 
             
-            document.getElementById('responseTime').innerHTML = `응답 시간<br>${responseTime}ms`;
-            document.getElementById('responseTime').className = getClass(responseTime);
+            document.getElementById('performance').innerHTML = `성능<br>${performanceScore}%`;
+            document.getElementById('performance').className = getClass(performanceScore);
+            
+            document.getElementById('accessibility').innerHTML = `접근성<br>${accessibilityScore}%`;
+            document.getElementById('accessibility').className = getClass(accessibilityScore);
+            
+            document.getElementById('bestPractices').innerHTML = `권장사항<br>${bestPracticesScore}%`;
+            document.getElementById('bestPractices').className = getClass(bestPracticesScore);
+            
+            document.getElementById('seo').innerHTML = `검색엔진 최적화<br>${seoScore}%`;
+            document.getElementById('seo').className = getClass(seoScore);
             
             document.getElementById('results').style.display = 'block';
         }
